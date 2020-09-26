@@ -1,0 +1,26 @@
+Let's recap the Resources and Actions used 
+
+We created a new Task Automation in StudioX, gave it a name and a description;
+We added a Use Excel File, browsed for the 'Report.xlsx' file and referenced it as "Template Report" for later use;
+Inside the Use Excel File, we added a Read CSV activity, indicated the 'Product_Export.csv' File and chose to output to the 'Report' sheet of the Template Report;
+We added a Write Cell activity, inputted the text “Total Sales USD” and indicated the F1 cell;
+We navigated to the backstage view of UiPath StudioX. We installed the Chrome extension from the Tools menu;
+We opened a Chrome tab and searched for "Currency to USD" on Google. We also confirmed that the Chrome extension has been installed by the Ui logo in the right upper corner;
+We used a Use Application/Browser resource, selected 'Indicate Application' and indicated the Chrome browser with Google;
+We added an Excel For Each Row inside the Open Application/Browser resource and selected the 'Converter' sheet from Template Report;
+We used a Type Into activity and indicated the Google search tab in the Chrome browser. Then we used the Text Builder to select the Currency from the table and wrote "to USD". We added 'Enter' as a special key;
+We used a Get Text activity to retrieve the conversion rate. We indicated both the target and a reliable anchor - the 'United States Dollars' drop-down field. We chose to save the retrieved value in the 'Conversion' column;
+We changed the 'Close' option from the Properties panel of the Use Application/Browser resource to 'Always';
+We dragged an Excel For Each Row activity and placed it outside the Use Application/Browser resource. We selected the 'Report' sheet of our file and checked the 'Has headers' box;
+Inside the Excel For Each Row, we added a VLookup activity. We selected the 'Currency' value to lookup, set the 'Converter' range and return column index 2. We saved the value For Later Use;
+ We used a Write Cell activity and, with the help of the Text Builder, we wrote "Equal product of Quantity*Price*Value in the VLookup" in the first field. In the second field we specified the 'Total Sales USD' cell;
+We added a Create Pivot Table activity outside the Excel For Each Row. We selected the entire 'Report' sheet as the range, added "Countries Sales Overview” as the new table name and  the 'Pivot' sheet as destination. The Pivot Fields are Location as a row and Total Sales as a Value with the Sum function;
+We used a Get File Info activity, selected the 'Report.xlsx' and saved it For Later Use;
+With a Copy File activity, we copied the value saved for later as Full Path and save it in the 'Reports' folder. We added the date by using the Project Notebook: from the drop-down list, we selected the Project Notebook, then the Date as YYMMDD;
+We added an Use Outlook Account resource and a Send Outlook Email activity to send the renamed report;
+In the Subject field, we wrote “Total sales for” and today’s date taken from the Project Notebook;
+In the body we wrote “Total sales for today are”, followed by a reference to our last table from the Pivot, and USD;
+Finally, we copied the file location from the Copy activity and pasted it in the Attachments field;
+We unchecked the 'Is draft' box in the Send Outlook Email activity;
+We checked the 'Overwrite' box in the Copy File activity;
+We closed all the Chrome browsers with Google pages open and successfully ran our automation.
